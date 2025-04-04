@@ -1204,17 +1204,11 @@ Continue?
                 #            https://mirror.nju.edu.cn/ubuntu-cloud-images/releases/
 
                 # mirrors.cloud.tencent.com
-                ci_mirror=https://mirror.nju.edu.cn/ubuntu-cloud-images
+                ci_mirror=https://mirror.nju.edu.cn/ubuntu-releases/
             else
                 ci_mirror=https://cloud-images.ubuntu.com
             fi
 
-            # 以下版本有 minimal 镜像
-            # amd64 所有
-            # arm64 24.04 和以上
-            is_have_minimal_image() {
-                [ "$basearch_alt" = amd64 ] || [ "${releasever%.*}" -ge 24 ]
-            }
 
             get_suffix() {
                 if [ "$releasever" = 16.04 ]; then
@@ -1226,15 +1220,7 @@ Continue?
                 fi
             }
 
-            if [ "$minimal" = 1 ]; then
-                if ! is_have_minimal_image; then
-                    error_and_exit "Minimal cloud image is not available for $releasever $basearch_alt."
-                fi
-                eval ${step}_img="$ci_mirror/minimal/releases/$codename/release/ubuntu-$releasever-minimal-cloudimg-$basearch_alt$(get_suffix).img"
-            else
-                eval ${step}_img="$ci_mirror/releases/$releasever/release/ubuntu-$releasever-server-cloudimg-$basearch_alt$(get_suffix).img"
-            fi
-        else
+
             # 传统安装
             if is_in_china; then
                 case "$basearch" in
@@ -1252,10 +1238,7 @@ Continue?
             filename=$(curl -L $mirror | grep -oP "ubuntu-$releasever.*?-desktop-$basearch_alt.iso" |
                 sort -uV | tail -1 | grep .)
             iso=$mirror/$filename
-            # 在 ubuntu 20.04 上，file 命令检测 ubuntu 22.04 iso 结果是 DOS/MBR boot sector
-            test_url "$iso" iso
-            eval ${step}_iso=$iso
-
+          
             # ks
             eval ${step}_ks=$confhome/ubuntu.yaml
             eval ${step}_minimal=$minimal
