@@ -1249,7 +1249,7 @@ Continue?
             fi
 
             # iso
-            filename=$(curl -L $mirror | grep -oP "ubuntu-$releasever.*?-live-server-$basearch_alt.iso" |
+            filename=$(curl -L $mirror | grep -oP "ubuntu-$releasever.*?-desktop-$basearch_alt.iso" |
                 sort -uV | tail -1 | grep .)
             iso=$mirror/$filename
             # 在 ubuntu 20.04 上，file 命令检测 ubuntu 22.04 iso 结果是 DOS/MBR boot sector
