@@ -1204,7 +1204,7 @@ Continue?
                 #            https://mirror.nju.edu.cn/ubuntu-cloud-images/releases/
 
                 # mirrors.cloud.tencent.com
-                ci_mirror=https://mirror.nju.edu.cn/ubuntu-cloud-images
+                ci_mirror=https://mirror.nju.edu.cn/ubuntu-releases
             else
                 ci_mirror=https://cloud-images.ubuntu.com
             fi
@@ -1249,7 +1249,7 @@ Continue?
             fi
 
             # iso
-            filename=$(curl -L $mirror | grep -oP "ubuntu-$releasever.*?-live-server-$basearch_alt.iso" |
+            filename=$(curl -L $mirror | grep -oP "ubuntu-$releasever.*?-desktop-$basearch_alt.iso" |
                 sort -uV | tail -1 | grep .)
             iso=$mirror/$filename
             # 在 ubuntu 20.04 上，file 命令检测 ubuntu 22.04 iso 结果是 DOS/MBR boot sector
